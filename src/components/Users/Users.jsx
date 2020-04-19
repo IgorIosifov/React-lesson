@@ -4,8 +4,8 @@ import * as axios from "axios";
 import emptyUser from '../../assets/images/emptyUser.png';
 
 class UsersC extends React.Component {
-    constructor(props) {
-        super(props);
+
+    componentDidMount() {
         if (this.props.users.length === 0) {
             axios.get("https://equipment-rest.herokuapp.com/users").then(response => this.props.setUsers(response.data))
         }
