@@ -5,11 +5,15 @@ import emptyUser from '../../assets/images/emptyUser.png';
 
 
 const Users = (props) => {
-    if (props.users.length === 0) {
-        axios.get("https://equipment-rest.herokuapp.com/users").then(response => props.setUsers(response.data))
+    let getUsers = () => {
+        if (props.users.length === 0) {
+            axios.get("https://equipment-rest.herokuapp.com/users").then(response => props.setUsers(response.data))
+        }
     }
 
+
     return <div>
+        <button onClick={getUsers}> Get Users</button>
         {
             props.users.map(u => <div key={u.id}>
                 <div>
