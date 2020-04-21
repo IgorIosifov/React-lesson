@@ -3,11 +3,14 @@ import Profile from "./Profile";
 import * as axios from "axios";
 import {connect} from "react-redux";
 import {setUserProfile} from "../../redux/profile-reducer";
+import {withRouter} from "react-router-dom";
 
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
-        axios.get(`https://equipment-rest.herokuapp.com/users/2`)
+        let userId = this.props.match.params.userId;
+        if (!userId) userId = 1;
+        axios.get(`https://equipment-rest.herokuapp.com/users/${userId}`)
             .then(response => {
                 this.props.setUserProfile(response.data);
             })
@@ -24,4 +27,4 @@ let mapStateToProps = (state) => ({
     profile: state.profilePage.profile
 });
 
-export default connect(mapStateToProps, {setUserProfile})(ProfileContainer);
+export default connect(mapStateToProps, {setUserProfile})(withRouter(ProfileContainer));
