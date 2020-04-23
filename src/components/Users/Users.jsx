@@ -31,7 +31,8 @@ let Users = (props) => {
                 </div>
                 <div>
                     {u.followed
-                        ? <button onClick={() => {
+                        ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                            props.toggleFollowingProgress(true, u.id);
                             axios.delete(`https://equipment-rest.herokuapp.com/follow/${u.id}`, {
                                 withCredentials: true,
                                 headers: {"API_KEY": "UNIQUE KEY"}
@@ -40,9 +41,11 @@ let Users = (props) => {
                                     if (response.data.resultCode === 0) {
                                         props.unfollow(u.id);
                                     }
+                                    props.toggleFollowingProgress(false, u.id);
                                 });
                         }}>Unfollow</button>
-                        : <button onClick={() => {
+                        : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                            props.toggleFollowingProgress(true, u.id);
                             axios.post(`https://equipment-rest.herokuapp.com/follow/${u.id}`, {}, {
                                 withCredentials: true,
                                 headers: {"API_KEY": "UNIQUE KEY"}
@@ -51,6 +54,7 @@ let Users = (props) => {
                                     if (response.data.resultCode === 0) {
                                         props.follow(u.id);
                                     }
+                                    props.toggleFollowingProgress(false, u.id);
                                 });
                         }}
                         >Follow</button>}
