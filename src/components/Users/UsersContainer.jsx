@@ -1,23 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {follow, setCurrentPage, setUsers, toggleIsFetching, unfollow} from '../../redux/users-reducer';
-import * as axios from 'axios';
 import Users from './Users';
 import Preloader from "../common/Preloader/Preloader";
+import {usersAPI} from "../../api/api";
+
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
         if (this.props.users.length === 0) {
             this.props.toggleIsFetching(true);
-            axios.get(`https://equipment-rest.herokuapp.com/users?page=${this.props.currentPage}&size=${this.props.pageSize}`,
-                {
-                    withCredentials: true
-                })
-                .then(response => {
+            usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+                .then(data => {
                     this.props.toggleIsFetching(false);
-                    this.props.setUsers(response.data);
-                    //this.props.setTotalUsersCount(response.data.TotalUsersCount)
+                    this.props.setUsers(data);
+                    //this.props.setTotalUsersCount(data.TotalUsersCount)
                 })
         }
     }
@@ -26,13 +24,10 @@ class UsersContainer extends React.Component {
         this.props.setCurrentPage(pageNumber);
         this.props.toggleIsFetching(true);
 
-        axios.get(`https://equipment-rest.herokuapp.com/users?page=${pageNumber}&size=${this.props.pageSize}`,
-            {
-                withCredentials: true
-            })
-            .then(response => {
+        usersAPI.getUsers(pageNumber, this.props.pageSize)
+            .then(data => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(response.data)
+                this.props.setUsers(data)
             })
     };
 
