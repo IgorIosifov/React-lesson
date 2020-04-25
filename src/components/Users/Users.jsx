@@ -2,7 +2,6 @@ import React from "react";
 import s from './Users.module.css';
 import emptyUser from './../../assets/images/emptyUser.png';
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
 
 let Users = (props) => {
 
@@ -12,7 +11,6 @@ let Users = (props) => {
         pages.push(i);
     }
 
-    debugger
     return <div>
         <div>
             {pages.map(p => {
